@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class SearchBox extends React.Component {
     state = { searchTerm: '' };
 
@@ -17,15 +18,16 @@ class SearchBox extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="card-body">
+                <h5 className="card-title">Search for cats</h5>
                 <form>
-                    <label>Search</label>
-                    <input
+                    
+                    <input className="form-control"
                         type="text"
                         value={this.state.searchTerm}
                         onChange={this.onInputChange}
                     />
-                    <button className="ui button" onClick={this.onFormSubmit}>Search</button>
+                    <button className="btn btn-outline-secondary float-right btn-space" onClick={this.onFormSubmit}>Search</button>
                 </form>
                 
             </div>
