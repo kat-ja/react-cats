@@ -3,7 +3,7 @@ import React from 'react';
 
 const BreedDetail = ({data}) => {
     //console.log('from BreedDetail all props: ', props);
-    console.log('from BreedDetail: ', data);
+   // console.log('from BreedDetail: ', data);
 
     if (data === undefined) {
         return (

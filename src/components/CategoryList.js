@@ -2,9 +2,8 @@ import React from 'react';
 import CategoryItem from './CategoryItem';
 
 const CategoryList = (props) => {
-    console.log('PROPS',props);
+    //console.log('PROPS',props);
     const renderedList = props.categorized.map((cat, i) => {
-        //console.log(i);
         return <CategoryItem cat={cat} key={i}/>
     })
    // console.log(renderedList);

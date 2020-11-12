@@ -3,7 +3,7 @@ import React from 'react';
 import CatItem from './CatItem';
 
 const CatList = (props) => {
-    console.log('from catlist: ',props.data);
+   // console.log('from catlist: ',props.data);
     const renderedList = props.data.map((cat)=>{
         return <CatItem cat={cat} key={cat.id}/>
         //return <p key={cat.id}><img src={cat.url}/></p>

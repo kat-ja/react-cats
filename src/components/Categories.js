@@ -20,18 +20,15 @@ class Categories extends React.Component {
 
     onSelectChange = event => {
         this.setState({ selectedCategory: event.target.value });
-
-       
     }
 
    
     onSelectSubmitCateg = event => {
         event.preventDefault();
-        this.setState({ selectedCategory: event.target.value });
-
-        
-
+        //this.setState({ selectedCategory: event.target.value });
         this.props.onSelectSubmitCateg(this.state.selectedCategory, this.state.selectedCategoryName);
+        this.setState({ selectedCategory: '' });
+
         // console.log('from categories, line 57', this.state.selectedCategory)
         //console.log('from categories, line 58', this.state.selectedCategoryName)
     }
@@ -39,6 +36,8 @@ class Categories extends React.Component {
     render() {
         let arr = [];
         let arrKeys = [];
+
+        console.log("selected category", this.state.selectedCategory);
 
         let categoriesData = this.state.categories.data;
 

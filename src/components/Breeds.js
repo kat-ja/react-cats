@@ -23,12 +23,14 @@ class Breeds extends React.Component {
 
     onSelectSubmit = event => {
         event.preventDefault();
+        //this.setState({ selectedBreed: event.target.value })
         this.props.onSelectSubmit(this.state.selectedBreed);
+        this.setState({ selectedBreed: ''})
     }
 
     render() {
 
-        console.log(this.state.selectedBreed);
+        console.log("selected breed", this.state.selectedBreed);
 
         let arr = [];
 

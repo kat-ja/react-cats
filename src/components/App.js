@@ -25,8 +25,7 @@ class App extends React.Component {
     }
 
     onTermSubmit = async searchTerm => {
-        //console.log('from app', searchTerm);
-
+        
         const response = await catapi.get('/images/search', {
             params: {
                 q: searchTerm,
@@ -37,7 +36,6 @@ class App extends React.Component {
             cats: response.data, 
             catlist: true, 
             mode: 'catlist' });
-        console.log(this.state.cats);
     }
 
     // default search for first view
@@ -52,19 +50,19 @@ class App extends React.Component {
                 q: selectedBreed
             }
         })
-        //console.log(responseBreed.data[0].description);
+        
         this.setState({
             breed: responseBreed.data[0], 
             breeddetail: true, 
             mode: 'breeddetail'
         });
 
-        console.log('from app', selectedBreed);
-        console.log('from app', this.state.breeddetail);
+        //console.log('from app', selectedBreed);
+        //console.log('from app', this.state.breeddetail);
     }
 
     onSelectSubmitCateg = async selectedCategory => {
-        console.log('from app', selectedCategory);
+       // console.log('from app', selectedCategory);
         const responseCategory = await catapi.get('/images/search', {
             params: {
                 limit: 30,
@@ -76,7 +74,6 @@ class App extends React.Component {
         for(let i = 0; i < 30; i++){
             categorizedArr.push(responseCategory.data[i].url);
         }
-        //console.log(categorizedArr);
 
         this.setState({
             selectedcategory: selectedCategory, 
@@ -110,7 +107,7 @@ class App extends React.Component {
                 default:
                     this.setState({selectedCategoryName: 'no category'});
               }
-        console.log('from App', this.state.selectedCategoryName)
+        //console.log('from App', this.state.selectedCategoryName)
         
     }
 
@@ -186,8 +183,6 @@ class App extends React.Component {
                     {this.renderCategoryList()}
                 </div>
             </div>
-
-
 
         );
     }
