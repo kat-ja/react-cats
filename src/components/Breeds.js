@@ -2,7 +2,7 @@ import React from 'react';
 import catapi from '../apis/catapi';
 
 class Breeds extends React.Component {
-    state = { breeds: [], selectedBreed: '' }
+    state = { breeds: [], selectedBreed: '', selectedBreedId: '', breedsArray: [] }
 
     getBreeds = async () => {
         const responseBreeds = await catapi.get('/breeds', {
@@ -11,31 +11,63 @@ class Breeds extends React.Component {
             }
         })
         this.setState({ breeds: responseBreeds });
+        
+        
+    }
+
+    getBreedsArray = () => {
+        
+        const arr = this.state.breeds.data;
+        
+        return arr;
+        //
     }
 
     componentDidMount() {
         this.getBreeds();
+        //this.setState({ selectedBreedId: currentElementId });
+        //console.log(this.state.selectedBreedId);  
     }
 
     onSelectChange = event => {
         this.setState({ selectedBreed: event.target.value })
+        const arr = this.getBreedsArray()
+        this.setState({breedsArray: arr});
+        
+        //const currentElement = arr.find(element => console.log(this.state.selectedBreed));
+        // element.name === this.state.selectedBreed
+        //const currentElementId = currentElement.id;
+        //console.log(currentElement);
     }
 
     onSelectSubmit = event => {
         event.preventDefault();
+        console.log(this.state.breedsArray);
+        const currentElement = this.state.breedsArray.find(element => (element.name===this.state.selectedBreed));
+        console.log(currentElement.id);
+        this.setState({selectedBreedId: currentElement.id})
         //this.setState({ selectedBreed: event.target.value })
-        this.props.onSelectSubmit(this.state.selectedBreed);
-        this.setState({ selectedBreed: ''})
+
+        // console.log("the element id", currentElementId);
+
+        // console.log after onSelectSubmit with arrow function
+
+        
+        this.props.onSelectSubmit(this.state.selectedBreed, this.state.selectedBreedId);
+
+       // this.setState({ selectedBreed: '' })
     }
 
     render() {
 
-        console.log("selected breed", this.state.selectedBreed);
+        this.getBreedsArray();
+
+        console.log("selected breed id", this.state.selectedBreedId);
 
         let arr = [];
 
         let breedsData = this.state.breeds.data;
-        //console.log(breedsData);
+        console.log(breedsData);
 
         for (let key in breedsData) {
             arr.push(breedsData[key].name);
@@ -47,13 +79,21 @@ class Breeds extends React.Component {
                 return `<option value="${breedname}" key="${i}">${breedname}</option>`
             })}
         </p>
+            MALLI:
+            value={valueA, valueB } onClick={this.toggleEditing.bind(this, valueA, valueB,...) }
+
+            onSubmit={ (event) => this.handleSubmit(event, type, id) }
         */
         return (
             <div className="card-body">
                 <h5 className="card-title">Breed information</h5>
                 <form>
 
-                    <select className="custom-select" onChange={this.onSelectChange} value={this.state.selectedBreed}>
+                    <select 
+                        className="custom-select" 
+                        onChange={this.onSelectChange} 
+                        value={this.state.selectedBreed}
+                    >
                         <option value="">Select option</option>
                         <option value="Abyssinian" key="0">Abyssinian</option>
                         <option value="Aegean" key="1">Aegean</option>
@@ -123,9 +163,14 @@ class Breeds extends React.Component {
                         <option value="Turkish Van" key="65">Turkish Van</option>
                         <option value="York Chocolate" key="66">York Chocolate</option>
                     </select>
-                    <button className="btn btn-outline-secondary float-right btn-space" onClick={this.onSelectSubmit}>Search</button>
+                    <button 
+                        className="btn btn-outline-secondary float-right btn-space" 
+                        onClick={event => this.onSelectSubmit(event, this.state.selectedBreedId, this.state.selectedBreed)}>
+                            Search
+                    </button>
                     {/* 
                     <input type="submit" onClick={this.onSelectSubmit}/>
+                    onClick={event => this.onSelectSubmit(event, this.state.selectedBreed, this.state.selectedBreedId)}>
                     */}
                 </form>
             </div>

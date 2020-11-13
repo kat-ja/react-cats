@@ -37,7 +37,7 @@ class Categories extends React.Component {
         let arr = [];
         let arrKeys = [];
 
-        console.log("selected category", this.state.selectedCategory);
+        //console.log("selected category", this.state.selectedCategory);
 
         let categoriesData = this.state.categories.data;
 
