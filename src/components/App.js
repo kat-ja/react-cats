@@ -16,6 +16,7 @@ class App extends React.Component {
         cats: [],
         catlist: false,
         breed: [],
+        breedId: '',
         breeddetail: false,
         breedImages: [],
         selectedcategory: '',
@@ -46,47 +47,61 @@ class App extends React.Component {
         this.setState({ catlist: true });
     }
 
-    onSelectSubmit = async (selectedBreed, selectedBreedId) => {
+    onSelectSubmit = async (selectedBreed) => {
 
         console.log('from app', selectedBreed);
-        console.log('from app', selectedBreedId);
-        
+       // console.log('from app', selectedBreedId);
+
         const responseBreed = await catapi.get('/breeds/search', {
             params: {
                 q: selectedBreed
             }
         })
+        /*
         const responseBreedImages = await catapi.get('/images/search', {
             params: {
                 breed_id: selectedBreedId,
                 limit: 30
             }
         })
-
+        */
         this.setState({
             breed: responseBreed.data[0],
+            breedId: responseBreed.data[0].id,
             breeddetail: true,
             mode: 'breeddetail',
-            breedImages: responseBreedImages
+           // breedImages: responseBreedImages
         });
 
         
-        console.log('from app', this.state.breedImages);
+        console.log('from app', this.state.breedId);
+        //this.getBreedImages();
     }
 
+    getBreedId = () => {
+        console.log("XXXXXXXXXX", this.state.breed.id);
+        return this.state.breed.id;
+    }
+    
     /*
-    getBreedImages = async selectedBreed => {
+    getBreedImages = () => {
+        const id = this.getBreedId();
+        console.log("yyyyyy",id);
+    }
+    */
+    onSelectSubmitId = async selectedBreedId => {
+        console.log('from app', selectedBreedId);
         const responseBreedImages = await catapi.get('/images/search', {
             params: {
-                breed_id: selectedBreed,
+                breed_id: selectedBreedId,
                 limit: 30
             }
         })
-        //console.log("SELECTED BREED FOR IMAGES", this.state.selectedBreed);
+        console.log("SELECTED BREED FOR IMAGES", this.state.selectedBreed);
         this.setState({ breedImages: responseBreedImages });
-        //console.log("BREEDIMAGES", this.state.breedImages);
+        console.log("BREEDIMAGES", this.state.breedImages);
     }
-    */
+    
 
     onSelectSubmitCateg = async selectedCategory => {
         // console.log('from app', selectedCategory);
@@ -155,8 +170,11 @@ class App extends React.Component {
             return (
                 <BreedDetail
                     data={this.state.breed}
+                    dataImages = {this.state.breedImages}
                     onSelectSubmit={this.onSelectSubmit}
+                    onSelectSubmitId={this.onSelectSubmitId}
                     breeddetail={this.state.breeddetail}
+                    //getBreedImages={()=>this.getBreedImages}
                 />
             )
         } else {
@@ -181,7 +199,8 @@ class App extends React.Component {
 
 
     render() {
-
+        
+            
         return (
             <div className="container">
                 <div className="display-4 text-center mt-5 mb-3">Cats from TheCatApi</div>
@@ -194,7 +213,8 @@ class App extends React.Component {
                             getBreeds={this.getBreeds}
                             breeds={this.state.breeds}
                             onSelectSubmit={this.onSelectSubmit}
-                            //getBreedImages={this.getBreedImages}
+                            onSelectSubmitId={this.onSelectSubmitId}
+                            
                         />
                     </div>
                     <div className="card greyish">
