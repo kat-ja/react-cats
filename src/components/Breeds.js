@@ -2,7 +2,7 @@ import React from 'react';
 import catapi from '../apis/catapi';
 
 class Breeds extends React.Component {
-    state = { breeds: [], selectedBreed: '', selectedBreedId: '', breedsArray: [] }
+    state = { breeds: [], selectedBreed: 'Abyssinian', selectedBreedId: 'abys', breedsArray: [] }
 
     getBreeds = async () => {
         const responseBreeds = await catapi.get('/breeds', {
@@ -101,7 +101,7 @@ class Breeds extends React.Component {
                         onChange={this.onSelectChange}
                         value={this.state.selectedBreed}
                     >
-                        <option value="">Select option</option>
+                        
                         <option value="Abyssinian" key="0">Abyssinian</option>
                         <option value="Aegean" key="1">Aegean</option>
                         <option value="American Bobtail" key="2">American Bobtail</option>
@@ -181,7 +181,16 @@ class Breeds extends React.Component {
                     {/* 
                     <input type="submit" onClick={this.onSelectSubmit}/>
                     onClick={event => this.onSelectSubmit(event, this.state.selectedBreed, this.state.selectedBreedId)}>
-                    */}
+                    
+                    {event => {
+                            this.onSelectSubmit(event, this.state.selectedBreed);
+                            this.onSelectSubmitId(event, this.state.selectedBreedId)
+                            }}
+                    
+                    
+                    */
+                    
+                    }
                 </form>
             </div>
         )

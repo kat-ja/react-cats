@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/SearchBox.css';
+import './css/CatItem.css';
 
 import SearchBox from './SearchBox';
 import catapi from '../apis/catapi';
@@ -11,34 +12,40 @@ import CategoryList from './CategoryList';
 
 
 class App extends React.Component {
-
-    state = {
-        cats: [],
-        catlist: false,
-        breed: [],
-        breedId: '',
-        breeddetail: false,
-        breedImages: [],
-        selectedcategory: '',
-        selectedCategoryName: 'boxes',
-        categorized: [],
-        categorydetail: false,
-        mode: 'none'
-    }
+    
+    constructor(props){
+        super(props)
+        this.state = {
+            cats: [],
+            catlist: false,
+            breed: [],
+            breedId: '',
+            breeddetail: false,
+            breedImages: [],
+            selectedcategory: 'boxes',
+            selectedCategoryName: 'boxes',
+            categorized: [],
+            categorydetail: false,
+            mode: 'none'
+        }
+        }
+    
 
     onTermSubmit = async searchTerm => {
-
-        const response = await catapi.get('/images/search', {
-            params: {
-                q: searchTerm,
-                limit: 30
-            }
-        })
-        this.setState({
-            cats: response.data,
-            catlist: true,
-            mode: 'catlist'
-        });
+       
+            const response = await catapi.get('/images/search', {
+                params: {
+                    q: searchTerm,
+                    limit: 50
+                }
+            })
+            this.setState({
+                cats: response.data,
+                catlist: true,
+                mode: 'catlist'
+            });
+        
+       
     }
 
     // default search for first view
@@ -46,55 +53,38 @@ class App extends React.Component {
         this.onTermSubmit('cat');
         this.setState({ catlist: true });
     }
-
-    onSelectSubmit = async (selectedBreed) => {
-
-        console.log('from app', selectedBreed);
-       // console.log('from app', selectedBreedId);
-
-        const responseBreed = await catapi.get('/breeds/search', {
-            params: {
-                q: selectedBreed
-            }
-        })
-        /*
-        const responseBreedImages = await catapi.get('/images/search', {
-            params: {
-                breed_id: selectedBreedId,
-                limit: 30
-            }
-        })
-        */
-        this.setState({
-            breed: responseBreed.data[0],
-            breedId: responseBreed.data[0].id,
-            breeddetail: true,
-            mode: 'breeddetail',
-           // breedImages: responseBreedImages
-        });
-
-        
-        console.log('from app', this.state.breedId);
-        //this.getBreedImages();
-    }
-
-    getBreedId = () => {
-        console.log("XXXXXXXXXX", this.state.breed.id);
-        return this.state.breed.id;
-    }
+   
     
-    /*
-    getBreedImages = () => {
-        const id = this.getBreedId();
-        console.log("yyyyyy",id);
-    }
-    */
+        onSelectSubmit = async (selectedBreed) => {
+            
+                console.log('from app', selectedBreed);
+                // console.log('from app', selectedBreedId);
+                 const responseBreed = await catapi.get('/breeds/search', {
+                     params: {
+                         q: selectedBreed
+                     }
+                 })
+                
+                 this.setState({
+                     breed: responseBreed.data[0],
+                     breedId: responseBreed.data[0].id,
+                     breeddetail: true,
+                     mode: 'breeddetail',
+                    // breedImages: responseBreedImages
+                 });
+                 console.log('from app', this.state.breedId);
+                 //this.getBreedImages();
+               
+        }
+    
+    
+
     onSelectSubmitId = async selectedBreedId => {
         console.log('from app', selectedBreedId);
         const responseBreedImages = await catapi.get('/images/search', {
             params: {
                 breed_id: selectedBreedId,
-                limit: 30
+                limit: 50
             }
         })
         console.log("SELECTED BREED FOR IMAGES", this.state.selectedBreed);
@@ -107,7 +97,7 @@ class App extends React.Component {
         // console.log('from app', selectedCategory);
         const responseCategory = await catapi.get('/images/search', {
             params: {
-                limit: 30,
+                limit: 50,
                 category_ids: selectedCategory
             }
         })
